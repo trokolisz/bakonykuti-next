@@ -1,23 +1,32 @@
+interface CatchAllParams {
+    slug: string[];
+  } 
 
-import React from 'react'
-
-interface Props{
-    params: Promise<{ slug: string[] }>;
-    searchParams: Promise<{ sortOrder: string; }>;
+export interface CatchAllProps {
+    params: CatchAllParams 
 }
 
-const ProductPage = async ({ params, searchParams }: Props) => {
-  const { slug } = await params; // Await params if it's a Promise
-  const { sortOrder } = await searchParams || { sortOrder: '' };
 
-  return (
+export default async function CatchAll({ params }: CatchAllProps) {
+    const { slug } = await params;
+  
+    return (
       <div>
-          ProductPage
-          <p>Slug: {slug ? slug.join('/') : 'No slug provided'}</p>
-          <p>Sort Order: {sortOrder}</p>
+        <h1>Dynamic Route</h1>
+        <p>
+          {slug
+            ? `Slug: ${slug.join("/")}` // Join the array to display the full path
+            : "No slug provided (root route)"}
+        </p>
       </div>
-  );
-};
-
-
-export default ProductPage
+    );
+  }
+  
+  // Optionally, handle specific metadata for the dynamic route
+  export async function generateMetadata({ params }: CatchAllProps) {
+    const slug = (await params).slug ? (await params).slug.join(" / ") : "Home";
+    return {
+      title: `Dynamic Page - ${slug}`,
+      description: `Page for ${slug}`,
+    };
+  }
