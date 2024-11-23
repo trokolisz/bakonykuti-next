@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Banner from "@/components/banner/Banner";
 import Menu from "@/components/menu";
+import Image from "next/image"; // Added import for Image
 
 export const metadata: Metadata = {
   title: "Bakonykuti",
@@ -118,6 +119,7 @@ export default function RootLayout({
        
         <Banner />
         <Menu items={Items}/>
+        {/* Replace <img> with <Image src="..." alt="..." /> */}
         {children}
       </body>
     </html>
